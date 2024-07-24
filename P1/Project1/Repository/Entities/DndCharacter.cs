@@ -2,6 +2,9 @@ namespace Project1.Entities;
 
 
 public class DndCharacter{
+
+ 
+
     public int DndCharacterId {get; set;}
 
     public string CharacterName {get; set;}

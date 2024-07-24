@@ -9,8 +9,9 @@ public class User{
 
     public string LastName {get; set;}
 
-    // public DndCharacter DndCharacter {get; set;}
     public ICollection<DndCharacter> DndCharacters {get; set;}
+
+    public Login Login {get; set;}
 
     public override string ToString()
     {

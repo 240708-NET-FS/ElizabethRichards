@@ -38,4 +38,9 @@ public class DndCharacterDAO : IDAO<DndCharacter>{
         return dndCharacter;
     }
 
+    public DndCharacter GetByName(string n){
+        DndCharacter dndCharacter = _context.DndCharacter.FirstOrDefault(d => d.CharacterName == n);
+        return dndCharacter;
+    }
+
 }

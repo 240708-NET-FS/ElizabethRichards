@@ -51,6 +51,33 @@ namespace Project1.Migrations
                     b.ToTable("DndCharacter");
                 });
 
+            modelBuilder.Entity("Project1.Entities.Login", b =>
+                {
+                    b.Property<int>("LoginID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoginID"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoginID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("Logins");
+                });
+
             modelBuilder.Entity("Project1.Entities.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -83,9 +110,23 @@ namespace Project1.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Project1.Entities.Login", b =>
+                {
+                    b.HasOne("Project1.Entities.User", "User")
+                        .WithOne("Login")
+                        .HasForeignKey("Project1.Entities.Login", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Project1.Entities.User", b =>
                 {
                     b.Navigation("DndCharacters");
+
+                    b.Navigation("Login")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

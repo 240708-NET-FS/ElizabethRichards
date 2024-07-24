@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Project1.Entities;
-
 public class ApplicationDbContext :DbContext{
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){}
 
@@ -12,7 +11,7 @@ public class ApplicationDbContext :DbContext{
 
     public DbSet<DndCharacter> DndCharacter {get; set;}
 
-
+    public DbSet<Login> Logins {get; set;}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if(!optionsBuilder.IsConfigured){
@@ -29,29 +28,19 @@ public class ApplicationDbContext :DbContext{
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        modelBuilder.Entity<DndCharacter>()
-                    .HasOne(d => d.User)
-                    .WithMany(u => u.DndCharacters)
-                    .HasForeignKey("UserID");
 
         modelBuilder.Entity<User>()
                     .HasMany(u => u.DndCharacters)
                     .WithOne(d => d.User)
                     .HasForeignKey(d => d.UserID);
-        
 
-        // modelBuilder.Entity<DndCharacter>()
-        //             .HasOne(d => d.User)
-        //             .WithMany(u => u.DndCharacters)
-        //             .HasForeignKey(d => d.UserID);
+        modelBuilder.Entity<User>()
+                    .HasOne(u => u.Login)
+                    .WithOne(l => l.User)
+                    .HasForeignKey<Login>(l => l.UserID);
 
-        
 
-        // modelBuilder.Entity<User>()
-        //             .HasMany(u => u.DndCharacters)
-        //             .WithOne(d => d.User)
-        //             .HasForeignKey(d => d.UserID);
-                    
+      
     }
 
 
