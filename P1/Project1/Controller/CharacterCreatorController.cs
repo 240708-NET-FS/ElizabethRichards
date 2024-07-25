@@ -20,78 +20,30 @@ namespace Project1.Controller{
             bool valid = false;
             string race = "";
 
-           
 
-            Console.WriteLine("To start, please pick your character's race  from the options below: ");
+
+            Console.WriteLine("To start, please type in your character's race from the options below: ");
 
             do{
                 Console.WriteLine("[1] Tiefling\n[2] Human\n[3] Elf\n[4] HalfElf\n[5] HalfOrc\n[6] Gnome\n[7] Dwarf\n[8] Halfling\n[9] Genasi");
 
-                try{
+            
                    
-                    var racePick = int.Parse(Console.ReadLine());
+                var racePick = Console.ReadLine();
+                if(CharacterCreatorService.ValidCharacterRace(racePick)){
+                    race = racePick;
+                    valid = true;
 
-                    switch(racePick){
-                        case 1:
-                            Console.WriteLine("Your character is a Tiefling!");
-                            race = "Tiefling";
-                            valid = true;
-                            break;
-                        case 2: 
-                            Console.WriteLine("Your character is a Human!");
-                            race = "Human";
-                            valid = true;
-                            break;
-                        case 3: 
-                            Console.WriteLine("Your character is an Elf!");
-                            race = "Elf";
-                            valid = true;
-                            break;
-                        case 4:
-                            Console.WriteLine("Your character is a HalfElf!");
-                            race = "HalfElf";
-                            valid = true;
-                            break;
-                        case 5:
-                            Console.WriteLine("Your character is a HalfOrc!");
-                            race = "HalfOrc";
-                            valid = true;
-                            break;
-                        case 6: 
-                            Console.WriteLine("Your character is a Gnome!");
-                            race = "Gnome";
-                            valid = true;
-                            break;
-                        case 7:
-                            Console.WriteLine("Your character us a Dwarf!");
-                            race = "Dwarf";
-                            valid = true;
-                            break;
-                        case 8:
-                            Console.WriteLine("Your character is a Halfling!");
-                            race = "Halfling";
-                            valid = true;
-                            break;
-                        case 9:
-                            Console.WriteLine("Your character is a Genasi!");
-                            race = "Genasi";
-                            valid = true;
-                            break;
-                        default:
-                            Console.Error.WriteLine("Invalid input! Please pick from the options above!");
-                            break;
-                    }
-
-                }catch (Exception e){
-                    throw new Exception("Invalid input! Please pick from the options above!");
-                    // Console.Error.WriteLine("Invalid input! Please pick from the options above!");
+                }else{
+                    throw new Exception("Invalid input! Please choose from the options above!");
                 }
+                
                 
             }while(!valid);
 
 
             
-            Console.WriteLine("\nNext, please pick your character's class from the options below: ");
+            Console.WriteLine("\nNext, please type in your character's class from the options below: ");
 
             bool classValid = false;
             string charClass = "";
@@ -101,76 +53,80 @@ namespace Project1.Controller{
                 Console.WriteLine("[1] Paladin\n[2] Fighter\n[3] Barbarian\n[4] Monk\n[5] Rogue\n[6] Ranger\n[7] Cleric\n[8] Druid\n[9] Warlock\n[10] Sorcerer\n[11] Wizard\n[12] Bard");
 
                 try{
-                    var charClassPick = int.Parse(Console.ReadLine());
-
-                    switch(charClassPick){
-                        case 1:
-                            Console.WriteLine("Your character is a Paladin!");
-                            charClass = "Paladin";
-                            classValid = true;
-                            break;
-                        case 2:
-                            Console.WriteLine("Your character is a Fighter!");
-                            charClass = "Fighter";
-                            classValid = true;
-                            break;
-                        case 3:
-                            Console.WriteLine("Your character is a Barbarian!");
-                            charClass = "Barbarian";
-                            classValid = true;
-                            break;
-                        case 4:
-                            Console.WriteLine("Your character is a Monk!");
-                            charClass = "Monk";
-                            classValid = true;
-                
-                            break;
-                        case 5:
-                            Console.WriteLine("Your character is a Rogue!");
-                            charClass = "Rogue";
-                            classValid = true;
-                            break;
-                        case 6:
-                            Console.WriteLine("Your character is a Ranger!");
-                            charClass = "Ranger";
-                            classValid = true;
-                            break;
-                        case 7:
-                            Console.WriteLine("Your character is a Cleric!");
-                            charClass = "Cleric";
-                            classValid = true;
-                            break;
-                        case 8:
-                            Console.WriteLine("Your character is a Druid!");
-                            charClass = "Druid";
-                            classValid = true;
-                            break;
-                        case 9:
-                            Console.WriteLine("Your character is a Warlock!");
-                            charClass = "Warlock";
-                            classValid = true;
-                            break;
-                        case 10:
-                            Console.WriteLine("Your character is a Sorcerer!");
-                            charClass = "Sorcerer";
-                            classValid = true;
-                            break;
-                        case 11:
-                            Console.WriteLine("Your character is a Wizard!");
-                            charClass = "Wizard";
-                            classValid = true;
-                            break;
-                        case 12:
-                            Console.WriteLine("Your character is a Bard!");
-                            charClass = "Bard";
-                            classValid = true;
-                            break;
-                        
-                        default:
-                            Console.Error.WriteLine("Invalid input! Please pick from the options above!");
-                            break;
-                        
+                    var charClassPick = Console.ReadLine();
+                    if(CharacterCreatorService.ValidCharacterClass(charClassPick)){
+                        charClass = charClassPick;
+                        classValid = true;
                     }
+
+                    // switch(charClassPick){
+                    //     case 1:
+                    //         Console.WriteLine("Your character is a Paladin!");
+                    //         charClass = "Paladin";
+                    //         classValid = true;
+                    //         break;
+                    //     case 2:
+                    //         Console.WriteLine("Your character is a Fighter!");
+                    //         charClass = "Fighter";
+                    //         classValid = true;
+                    //         break;
+                    //     case 3:
+                    //         Console.WriteLine("Your character is a Barbarian!");
+                    //         charClass = "Barbarian";
+                    //         classValid = true;
+                    //         break;
+                    //     case 4:
+                    //         Console.WriteLine("Your character is a Monk!");
+                    //         charClass = "Monk";
+                    //         classValid = true;
+                
+                    //         break;
+                    //     case 5:
+                    //         Console.WriteLine("Your character is a Rogue!");
+                    //         charClass = "Rogue";
+                    //         classValid = true;
+                    //         break;
+                    //     case 6:
+                    //         Console.WriteLine("Your character is a Ranger!");
+                    //         charClass = "Ranger";
+                    //         classValid = true;
+                    //         break;
+                    //     case 7:
+                    //         Console.WriteLine("Your character is a Cleric!");
+                    //         charClass = "Cleric";
+                    //         classValid = true;
+                    //         break;
+                    //     case 8:
+                    //         Console.WriteLine("Your character is a Druid!");
+                    //         charClass = "Druid";
+                    //         classValid = true;
+                    //         break;
+                    //     case 9:
+                    //         Console.WriteLine("Your character is a Warlock!");
+                    //         charClass = "Warlock";
+                    //         classValid = true;
+                    //         break;
+                    //     case 10:
+                    //         Console.WriteLine("Your character is a Sorcerer!");
+                    //         charClass = "Sorcerer";
+                    //         classValid = true;
+                    //         break;
+                    //     case 11:
+                    //         Console.WriteLine("Your character is a Wizard!");
+                    //         charClass = "Wizard";
+                    //         classValid = true;
+                    //         break;
+                    //     case 12:
+                    //         Console.WriteLine("Your character is a Bard!");
+                    //         charClass = "Bard";
+                    //         classValid = true;
+                    //         break;
+                        
+                    //     default:
+                    //         Console.Error.WriteLine("Invalid input! Please pick from the options above!");
+                    //         break;
+                        
+                    // }
 
                 }catch(Exception e){
                     // Console.Error.WriteLine("Invalid input! Please pick from the options above!");
@@ -204,7 +160,8 @@ namespace Project1.Controller{
             if(State.isActive && State.currentLogin != null){
                 DndCharacter newCharacter = charCreateService.AddCharacter(charName, race, charClass);
                 Console.WriteLine("Congrats! Here's your character: ");
-                Console.WriteLine($"{newCharacter.CharacterName}\t{newCharacter.CharacterRace}\t{newCharacter.CharacterClass}");
+                Console.WriteLine("Name\t\tRace\t\tClass\t\tHit Points");
+                Console.WriteLine($"{newCharacter.CharacterName}\t{newCharacter.CharacterRace}\tLevel 1 {newCharacter.CharacterClass}\t{newCharacter.HitPoints}");
                 Console.WriteLine("Returning to menu...");
 
             }else{
@@ -216,19 +173,6 @@ namespace Project1.Controller{
             }
 
             
-
-           
-            // switch(res){
-            //     case 1: 
-                    
-            //         break;
-            //     case 2: 
-            //         break;
-            //     default:
-            //         break;
-            // }
-
-            /// Loop here for changing any inputs, before submitting
         }
 
         

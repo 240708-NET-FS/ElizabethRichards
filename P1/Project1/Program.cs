@@ -11,8 +11,6 @@ namespace Project1;
     public class Program{
         public static void Main(string[] args){
 
-
-           // check in table creation for constraints
             using(var context = new ApplicationDbContext()){
                 UserDAO userDAO = new UserDAO(context);
                 LoginDAO loginDAO = new LoginDAO(context);
@@ -20,6 +18,11 @@ namespace Project1;
 
                 LoginService loginService = new LoginService(loginDAO);
                 CharacterCreatorService charService = new CharacterCreatorService(dndCharacterDAO);
+                UserService userService = new UserService(userDAO);
+
+                // userDAO.Create(new User{FirstName="temporary", LastName="user"});
+                // loginDAO.Create(new Login{Username="temporary", Password="password", UserID=1});
+              
 
                 Console.WriteLine("Welcome to the Character Creator!(Not affiliated with DND Beyond)");
                 Console.WriteLine("----Please choose option below----");
@@ -29,10 +32,13 @@ namespace Project1;
                 bool valid = false;
 
                 LoginController loginController = new LoginController(loginService);
-                UserController userController = new UserController(charService);
+                UserController userController = new UserController(userService, charService);
+                CreateAccount createAccount = new CreateAccount(userDAO, loginDAO);
+
+
 
                 do{
-                    Console.WriteLine("[1] Login with Username and Password\n[2] Continue as Guest");
+                    Console.WriteLine("[1] Login with Username and Password\n[2] Create Account\n[3] Continue as Guest");
                     try{
                         response = int.Parse(Console.ReadLine());
 
@@ -43,53 +49,32 @@ namespace Project1;
                                 Console.WriteLine("Successully logged in!\n");
                                 userController.UserSession(State.currentLogin);  
                                 break;
-                            case 2: 
-                                valid = true;
+                            case 2:
+                                createAccount.CreateNewAccount();
+                                Console.WriteLine("Successfully created account!\nPlease login to access Character Creator!");
+                                loginController.LoginSession();
+                                userController.UserSession(State.currentLogin);
+                                break;
+                            case 3: 
                                 userController.UserSession();
+                                // valid = true
                                 break;
                             default:
                                 valid = false;
-                                Console.Error.WriteLine("Invalid input! Please pick option 1 or 2!");
+                                Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                                 break;
 
                         }
 
-                        valid = true;
 
                     }catch (Exception e){
-                        Console.Error.WriteLine("Invalid input! Please pick option 1 or 2!");
+                        Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                     }
                 }while(!valid);
 
-                    // userDAO.Create(new User{FirstName = "temporary", LastName = "user"});
-                    // ICollection<User> users = userDAO.GetAll();
-
-                    // foreach(User u in users){
-                    //     Console.WriteLine(u);
-                    // }
-
-                    // loginDAO.Create(new Login{Username = "username", Password = "password", UserID = 1});
-                    
-                    // ICollection<Login> logins = loginDAO.GetAll();
-                    // foreach(Login l in logins){
-                    //     Console.WriteLine(l);
-                    // }
-
-                    // User u = userDAO.GetById(1);
-
-                    // dndCharacterDAO.Create(new DndCharacter{CharacterName="Spindle Bells", CharacterClass="Bard", CharacterRace="Tiefling", UserID = 1, User = u});
-                    // dndCharacterDAO.Create(new DndCharacter{CharacterName="Zephyr Dreylta", CharacterClass="Ranger", CharacterRace="Tiefling", UserID = 1, User = u});
-
-                    // ICollection<DndCharacter> dndChars = dndCharacterDAO.GetAll();
-
-                    // foreach(DndCharacter d in dndChars){
-                    //     Console.WriteLine(d);
-                    // }
                 }
 
-            // dotnet new webapi --use-controllers -o {YourAppName}
-
-            // }
+           
             
         }
 
