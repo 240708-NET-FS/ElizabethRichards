@@ -18,7 +18,7 @@ namespace Project1;
 
                 LoginService loginService = new LoginService(loginDAO);
                 CharacterCreatorService charService = new CharacterCreatorService(dndCharacterDAO);
-                UserService userService = new UserService(userDAO);
+                UserService userService = new UserService(userDAO, dndCharacterDAO);
 
                 // userDAO.Create(new User{FirstName="temporary", LastName="user"});
                 // loginDAO.Create(new Login{Username="temporary", Password="password", UserID=1});
@@ -38,7 +38,7 @@ namespace Project1;
 
 
                 do{
-                    Console.WriteLine("[1] Login with Username and Password\n[2] Create Account\n[3] Continue as Guest");
+                    Console.WriteLine("[1] Login with Username and Password\n[2] Create Account\n[3] Continue as Guest\n[4] Exit");
                     try{
                         response = int.Parse(Console.ReadLine());
 
@@ -47,17 +47,23 @@ namespace Project1;
                                 valid = true;
                                 loginController.LoginSession();
                                 Console.WriteLine("Successully logged in!\n");
-                                userController.UserSession(State.currentLogin);  
+                                userController.UserSession(State.currentLogin); 
+                                valid = true; 
                                 break;
                             case 2:
                                 createAccount.CreateNewAccount();
                                 Console.WriteLine("Successfully created account!\nPlease login to access Character Creator!");
                                 loginController.LoginSession();
                                 userController.UserSession(State.currentLogin);
+                                valid = true;
                                 break;
                             case 3: 
                                 userController.UserSession();
                                 // valid = true
+                                break;
+                            case 4:
+                                Console.WriteLine("Exiting program...");
+                                valid = true;
                                 break;
                             default:
                                 valid = false;
@@ -65,7 +71,6 @@ namespace Project1;
                                 break;
 
                         }
-
 
                     }catch (Exception e){
                         Console.Error.WriteLine("Invalid input! Please pick from the options above!");

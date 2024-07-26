@@ -22,6 +22,8 @@ public class DndCharacterDAO : IDAO<DndCharacter>{
     }   
 
     public void Delete(DndCharacter item){
+        _context.DndCharacter.Remove(item);
+        _context.SaveChanges();
 
 
     }

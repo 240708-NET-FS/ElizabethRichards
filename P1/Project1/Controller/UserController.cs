@@ -21,80 +21,123 @@ public class UserController{
 
     }
 
-    static void UserPrompt(){
-        Console.WriteLine("----Please choose from the options below:");
-
-         if(State.isActive && State.currentLogin != null){
-            Console.WriteLine("\n[1] Create a Character\n[2] View Characters\n[3] Exit");
-        }else{
-            Console.WriteLine("\n[1] Create a Character\n[2] Exit and return to Landing");
-        }
-
-
-    }
     public void UserSession(){
-
-    
         CharacterCreatorController charController = new CharacterCreatorController(characterCreatorService);
 
         bool valid = false;
+        int input;
+
+
 
         do{
-            UserPrompt();
+            Console.WriteLine();
+            if(State.isActive && State.currentLogin != null){
+                ShowUserCharacters();
+                Console.WriteLine("\n----Please choose from the options below:");
+                Console.WriteLine("\n[1] Create a Character\n[2] Remove a Character\n[3] Exit");
+            }else{
+                Console.WriteLine($"\n----Welcome to Character Creator!----");
+                Console.WriteLine("\n----Please choose from the options below:");
+                Console.WriteLine("\n[1] Create a Character\n[2] Exit and return to Landing");
+            }
 
-            try{
-                int input = int.Parse(Console.ReadLine());
-                if(State.isActive && State.currentLogin != null){
-                    switch(input){
-                        case 1:
-                            charController.Session();
-                            // valid = true;
-                            break;
-                        case 2: 
-                            ShowUserCharacters();
-                        
-                            break;
-                    
-                        case 3:
-                            Console.WriteLine("Exit");
-                            valid = true;
-                            break;
-                        default:
-                            Console.Error.WriteLine("Invalid Input! Please enter a valid option!");
-                            break;
-                        }
+            input = int.Parse(Console.ReadLine());
 
-                }else{
-                    switch(input){
-                        case 1: 
-                            charController.Session();
-                            break;
-                        case 2:
-                            Console.WriteLine("Exit and Return to Landing");
-                            valid = true;
-                            break;
-                        default:
-                            Console.Error.WriteLine("Invalid Input! Please enter a valid option!");
-                            break;
-                    }
-
+            if(State.isActive && State.currentLogin != null){
+                switch(input){
+                    case 1:
+                        charController.Session();
+                        break;
+                    case 2:
+                        Console.WriteLine("Remove character");
+                        DeleteUserCharacter();
+                        break;
+                    case 3:
+                        Console.WriteLine("Thank you for using the Character Creator!");
+                        Console.WriteLine("Exiting Program...");
+                        valid = true;
+                        break;
+                    case 4:
+                        valid = true;
+                        break;
                 }
-           
+            }else{
+                switch(input){
+                case 1:
+                    charController.Session();
+                    break;
+                case 2:
+                    Console.WriteLine("Thank you for using the Character Creator!");
+                    Console.WriteLine("Exiting Program...");
+                    valid = true;
+                    break;
+                default:
+                    valid = true;
+                    break;
+
             }
-            catch(Exception e){
-                Console.Error.WriteLine("Invalid Input! Please pick from the options above!");
+               
             }
 
-        }while(!valid);    
-       
+        }while(!valid);
+
+     
+    }
+    void DeleteUserCharacter(){
+        Console.WriteLine("Seems the adventure is over for one of your characters");
+        Console.WriteLine("Enter the name of the character you wish to remove below");
+        Console.Write("Enter Name: ");
+        string name = Console.ReadLine();
+        Console.WriteLine($"\nAre you sure you want to delete {name}? Y/N");
+
+        bool valid = false;
+        do{
+            string input = Console.ReadLine();
+            try{
+                switch(input.ToLower()){
+                    case "y":
+                        userService.DeleteUserCharacter(name);
+                        Console.WriteLine($"Hope you had many fun adventures with {name}!");
+                        valid = true;
+                        break;
+                    case "n":
+                        Console.WriteLine("Returning to menu...");
+                        valid = true;
+                        break;
+                    
+                }
+
+            }catch(Exception e){
+                throw new Exception("Invalid input! Please enter 'Y' or 'N'"!);
+            }
+            
+
+        }while(!valid);
+
+
     }
 
-    void ShowUserCharacters(){
+
+    //TODO: Format strings and things
+
+    public void ShowUserCharacters(){
         ICollection<DndCharacter> characters = userService.GetUsersDndCharacters();
-        if(characters != null){
+        // Console.WriteLine("Hello 2");
+
+        if(characters.Count() > 0){
             Console.WriteLine($"{State.currentLogin.Username}'s Characters: ");
             int index = 0;
+            // int[] ids = new int[characters.Count()];
+            // string[] names = new string[characters.Count()];
+            // string[] races = new string[characters.Count()];
+            // string[] classes = new string[characters.Count()];
+            // int[] hps = new int[characters.Count()];
+
             foreach(DndCharacter character in characters){
+
+                
+
+                // FormatCharacterList(++index, character.CharacterName, character.CharacterRace, character.CharacterClass, character.HitPoints);
                 Console.WriteLine($"{++index} {character.CharacterName}\t{character.CharacterRace}\tLevel 1 {character.CharacterClass}\t{character.HitPoints}");
             }
         }else{
@@ -102,6 +145,5 @@ public class UserController{
         }
 
     }
-
        
 }

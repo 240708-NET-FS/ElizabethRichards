@@ -9,7 +9,7 @@ public class User{
 
     public string LastName {get; set;}
 
-    public ICollection<DndCharacter> DndCharacters {get; set;}
+    public ICollection<DndCharacter> DndCharacters {get; set;} = new List<DndCharacter>();
 
     public Login Login {get; set;}
 

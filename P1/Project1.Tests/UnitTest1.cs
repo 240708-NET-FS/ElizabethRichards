@@ -36,20 +36,40 @@ public class UnitTest1
     
         
     }
-    // Inline test & theory
 
-    [Fact]
-    public void ValidCharacterClassTest(){
+    [Theory]
+    [InlineData("Tiefling", true)]
+    [InlineData("tiefling", true)]
+    [InlineData("Orc", false)]
+    [InlineData("HalfElf", true)]
+    [InlineData("Half-Elf", false)]
+    [InlineData("1", false)]
+    [InlineData("", false)]
+    public void ValidCharacterRaceTest(string r, bool expected){
+        Assert.Equal(expected, CharacterCreatorService.ValidCharacterRace(r));
+    }
+
+    [Theory]
+    [InlineData("Ranger", true)]
+    [InlineData("Rogue", true)]
+    [InlineData("bard", true)]
+    [InlineData("Bard", true)]
+    [InlineData("BloodHunter", false)]
+    [InlineData("1", false)]
+    [InlineData("", false)]
+    public void ValidCharacterClassTest(string c, bool expected){
+        Assert.Equal(expected, CharacterCreatorService.ValidCharacterClass(c));
 
     }
 
-    [Fact]
-    public void ValidCharacterRaceTest(){
-
-    }
-
-    [Fact]
-    public void ValidAccountCreds(){
+    [Theory]
+    [InlineData("Character", true)]
+    [InlineData("First Last", true)]
+    [InlineData("", false)]
+    [InlineData("first", true)]
+    [InlineData("---", true)]
+    public void ValidCharacterName(string n, bool expected){
+        Assert.Equal(expected, CharacterCreatorService.ValidCharacterName(n));
         
     }
 

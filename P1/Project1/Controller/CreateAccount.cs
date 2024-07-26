@@ -4,6 +4,7 @@ using Project1.Entities;
 
 namespace Project1.Controller;
 
+// Make service
 public class CreateAccount{
     private readonly UserDAO _userDAO;
     private readonly LoginDAO _loginDAO;
@@ -22,7 +23,9 @@ public class CreateAccount{
         Console.Write("Enter Last Name: ");
         string lName = Console.ReadLine();
 
+        Console.WriteLine("Adding User...");
         _userDAO.Create(new User{FirstName=fName, LastName=lName});
+        Console.WriteLine("Added User successfully!");
 
         //Login creds
         Console.Write("Enter Username: ");
