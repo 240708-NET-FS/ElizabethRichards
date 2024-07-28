@@ -19,6 +19,7 @@ namespace Project1;
                 LoginService loginService = new LoginService(loginDAO);
                 CharacterCreatorService charService = new CharacterCreatorService(dndCharacterDAO);
                 UserService userService = new UserService(userDAO, dndCharacterDAO);
+                CreateAccountService createAccountService = new CreateAccountService(loginDAO, userDAO);
 
                 // userDAO.Create(new User{FirstName="temporary", LastName="user"});
                 // loginDAO.Create(new Login{Username="temporary", Password="password", UserID=1});
@@ -33,7 +34,7 @@ namespace Project1;
 
                 LoginController loginController = new LoginController(loginService);
                 UserController userController = new UserController(userService, charService);
-                CreateAccount createAccount = new CreateAccount(userDAO, loginDAO);
+                CreateAccount createAccount = new CreateAccount(createAccountService);
 
 
 

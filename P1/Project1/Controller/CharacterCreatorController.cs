@@ -27,9 +27,9 @@ public class CharacterCreatorController{
         if(State.isActive && State.currentLogin != null){
             DndCharacter newCharacter = charCreateService.AddCharacter(charName, race, charClass);
             Console.WriteLine("Congrats! Here's your character: ");
-            // Format
-            Console.WriteLine("Name\t\tRace\t\tClass\t\tHit Points");
-            Console.WriteLine($"{newCharacter.CharacterName}\t{newCharacter.CharacterRace}\tLevel 1 {newCharacter.CharacterClass}\t{newCharacter.HitPoints}");
+            Console.WriteLine("{0, -5} {1, -15} {2, -15} {3, -15}", "Name", "Race", "Class", "Hit Points");
+            Console.WriteLine("{0, -5} {1, -15} {2, -15} {3, -15}", newCharacter.CharacterName, newCharacter.CharacterRace, "Level 1", newCharacter.CharacterClass, newCharacter.HitPoints);
+
             Console.WriteLine("Returning to menu...");
 
         }else{
@@ -87,7 +87,6 @@ public class CharacterCreatorController{
                 }
 
             }catch(Exception e){
-                // Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                 throw new Exception("Invalid input! Please pick from the options above!");
 
             }
@@ -100,7 +99,6 @@ public class CharacterCreatorController{
     }
 
     static string PickCharacterName(){
-        Console.WriteLine("\nNext, please type in your character's class from the options below: ");
         bool nameValid = false;
         string charName = "";
         Console.WriteLine("\nWith a race and class, you can now pick your character's name!");

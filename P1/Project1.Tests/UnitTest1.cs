@@ -73,4 +73,21 @@ public class UnitTest1
         
     }
 
+
+    [Theory]
+    [InlineData("First", "Last", true)]
+    [InlineData("", "", false)]
+    public void ValidAccountCredsTest(string u, string p, bool expected){
+        Assert.Equal(expected, CreateAccountService.ValidAccountCreds(u, p));
+
+    }
+
+    [Theory]
+    [InlineData("First", "Last", true)]
+    [InlineData("", "", false)]
+    public void ValidUserCredsTest(string fName, string lName, bool expected){
+        Assert.Equal(expected, CreateAccountService.ValidUserCreds(fName, lName));
+
+    }
+
 }

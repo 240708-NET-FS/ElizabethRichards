@@ -15,7 +15,7 @@ public class LoginController{
 
     public void LoginSession(){
         Console.WriteLine("---- Login Below ----");
-        Console.WriteLine("Temporary Login Credentials: Username: 'temporary'\tPassword: 'password'");
+        // Console.WriteLine("Temporary Login Credentials: Username: 'temporary'\tPassword: 'password'");
         
         string u = "";
         string p = "";

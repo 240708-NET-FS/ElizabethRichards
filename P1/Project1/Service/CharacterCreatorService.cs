@@ -21,6 +21,7 @@ public class CharacterCreatorService{
         return _dndCharDAO.GetByName(n);
     }
 
+
     public static int HitPointCalculator(string charClass){
 
         if(!ValidCharacterClass(charClass)){
@@ -67,7 +68,6 @@ public class CharacterCreatorService{
 
 
     }
-
     public static bool ValidCharacterName(string input){
         return input != null && input.Length > 0;
     }

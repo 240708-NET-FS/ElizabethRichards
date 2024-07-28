@@ -6,7 +6,6 @@ using Project1.Utility;
 namespace Project1.Controller;
 
 public class UserController{
-    //private UserService userService;
     private CharacterCreatorService characterCreatorService;
     private UserService userService;
 
@@ -49,17 +48,23 @@ public class UserController{
                         charController.Session();
                         break;
                     case 2:
-                        Console.WriteLine("Remove character");
-                        DeleteUserCharacter();
+                        if(userService.GetUsersDndCharacters().Count() != 0){
+                            DeleteUserCharacter();
+                        }
+                        else{
+                            Console.WriteLine("No characters to remove! Make one today!");
+                        }
                         break;
                     case 3:
                         Console.WriteLine("Thank you for using the Character Creator!");
                         Console.WriteLine("Exiting Program...");
                         valid = true;
                         break;
-                    case 4:
-                        valid = true;
+                    default: 
+                        Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                         break;
+                    
+                        
                 }
             }else{
                 switch(input){
@@ -72,29 +77,32 @@ public class UserController{
                     valid = true;
                     break;
                 default:
-                    valid = true;
+                    Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                     break;
 
-            }
+                }
                
             }
 
         }while(!valid);
 
-     
     }
+
+    
     void DeleteUserCharacter(){
+
         Console.WriteLine("Seems the adventure is over for one of your characters");
         Console.WriteLine("Enter the name of the character you wish to remove below");
         Console.Write("Enter Name: ");
-        string name = Console.ReadLine();
+        //VALIDATE
+        string? name = Console.ReadLine();
         Console.WriteLine($"\nAre you sure you want to delete {name}? Y/N");
 
         bool valid = false;
         do{
-            string input = Console.ReadLine();
-            try{
-                switch(input.ToLower()){
+            string? input = Console.ReadLine();
+            
+                switch(input?.ToLower()){
                     case "y":
                         userService.DeleteUserCharacter(name);
                         Console.WriteLine($"Hope you had many fun adventures with {name}!");
@@ -104,12 +112,12 @@ public class UserController{
                         Console.WriteLine("Returning to menu...");
                         valid = true;
                         break;
+                    default:
+                        Console.Error.WriteLine("Invalid input! Please enter 'Y' or 'N'"!);
+                        break;
                     
                 }
 
-            }catch(Exception e){
-                throw new Exception("Invalid input! Please enter 'Y' or 'N'"!);
-            }
             
 
         }while(!valid);
@@ -117,33 +125,24 @@ public class UserController{
 
     }
 
-
-    //TODO: Format strings and things
-
     public void ShowUserCharacters(){
         ICollection<DndCharacter> characters = userService.GetUsersDndCharacters();
-        // Console.WriteLine("Hello 2");
-
         if(characters.Count() > 0){
             Console.WriteLine($"{State.currentLogin.Username}'s Characters: ");
             int index = 0;
-            // int[] ids = new int[characters.Count()];
-            // string[] names = new string[characters.Count()];
-            // string[] races = new string[characters.Count()];
-            // string[] classes = new string[characters.Count()];
-            // int[] hps = new int[characters.Count()];
+            Console.WriteLine("{0, -5} {1, -15} {2, -15} {3, -20} {4, -5}", "#", "Name", "Race", "Class", "Hit Points");
 
             foreach(DndCharacter character in characters){
 
-                
-
-                // FormatCharacterList(++index, character.CharacterName, character.CharacterRace, character.CharacterClass, character.HitPoints);
-                Console.WriteLine($"{++index} {character.CharacterName}\t{character.CharacterRace}\tLevel 1 {character.CharacterClass}\t{character.HitPoints}");
+                Console.WriteLine("{0, -5} {1, -15} {2, -15} {3, -20} {4, -5}", ++index, character.CharacterName, character.CharacterRace, "Level 1 " + character.CharacterClass, "\t" + character.HitPoints);
             }
         }else{
             Console.WriteLine("No characters yet! Make one today!");
         }
 
     }
+
+
+    
        
 }
