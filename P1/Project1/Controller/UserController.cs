@@ -39,49 +39,53 @@ public class UserController{
                 Console.WriteLine("\n----Please choose from the options below:");
                 Console.WriteLine("\n[1] Create a Character\n[2] Exit and return to Landing");
             }
-
-            input = int.Parse(Console.ReadLine());
-
-            if(State.isActive && State.currentLogin != null){
-                switch(input){
+            
+            try{
+                input = int.Parse(Console.ReadLine());
+                
+                if(State.isActive && State.currentLogin != null){
+                    switch(input){
+                        case 1:
+                            charController.Session();
+                            break;
+                        case 2:
+                            if(userService.GetUsersDndCharacters().Count() != 0){
+                                DeleteUserCharacter();
+                            }
+                            else{
+                                Console.WriteLine("No characters to remove! Make one today!");
+                            }
+                            break;
+                        case 3:
+                            Console.WriteLine("Thank you for using the Character Creator!");
+                            Console.WriteLine("Exiting Program...");
+                            valid = true;
+                            break;
+                        default: 
+                            Console.Error.WriteLine("Invalid input! Please pick from the options above!");
+                            break;
+                        
+                            
+                    }
+                }else{
+                    switch(input){
                     case 1:
                         charController.Session();
                         break;
                     case 2:
-                        if(userService.GetUsersDndCharacters().Count() != 0){
-                            DeleteUserCharacter();
-                        }
-                        else{
-                            Console.WriteLine("No characters to remove! Make one today!");
-                        }
-                        break;
-                    case 3:
                         Console.WriteLine("Thank you for using the Character Creator!");
                         Console.WriteLine("Exiting Program...");
                         valid = true;
                         break;
-                    default: 
+                    default:
                         Console.Error.WriteLine("Invalid input! Please pick from the options above!");
                         break;
-                    
-                        
+                    }
+                
                 }
-            }else{
-                switch(input){
-                case 1:
-                    charController.Session();
-                    break;
-                case 2:
-                    Console.WriteLine("Thank you for using the Character Creator!");
-                    Console.WriteLine("Exiting Program...");
-                    valid = true;
-                    break;
-                default:
-                    Console.Error.WriteLine("Invalid input! Please pick from the options above!");
-                    break;
 
-                }
-               
+            }catch(Exception e){
+                Console.WriteLine("Invalid input! Please pick from the options above!");
             }
 
         }while(!valid);
@@ -93,9 +97,25 @@ public class UserController{
 
         Console.WriteLine("Seems the adventure is over for one of your characters");
         Console.WriteLine("Enter the name of the character you wish to remove below");
-        Console.Write("Enter Name: ");
+        bool nameValid = false;
+        string? name;
         //VALIDATE
-        string? name = Console.ReadLine();
+
+        do{
+            Console.Write("Enter Name: ");
+            name = Console.ReadLine();
+            try{
+                DndCharacter dnd = userService.GetUserCharacterByName(name);
+                nameValid = true;
+
+            }catch(Exception e){
+                Console.Error.WriteLine("Character not found! Please enter a valid character!");
+            }
+
+
+        }while(!nameValid);
+
+
         Console.WriteLine($"\nAre you sure you want to delete {name}? Y/N");
 
         bool valid = false;

@@ -34,6 +34,16 @@ public class UserService{
         }
     }
 
+    public DndCharacter GetUserCharacterByName(string n){
+        int userId = State.currentLogin.UserID;
+        if(_dndCharacterDAO.GetAll().FirstOrDefault(d => d.CharacterName == n && d.UserID == userId) == null){
+            throw new Exception("Character not found!");
+        }else{
+            return _dndCharacterDAO.GetAll().FirstOrDefault(d => d.CharacterName == n && d.UserID == userId);
+        }
+        
+    }
+
     
 
 
